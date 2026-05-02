@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-table
+      author: Ann Gaikovich
+      changes:
+        - createTable:
+            tableName: users
+            remarks: "Таблица учётных записей пользователей"
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: VARCHAR(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password_hash
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patient_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: doctor_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+        - addDefaultValue:
+            tableName: users
+            columnName: updated_at
+            defaultValueComputed: CURRENT_TIMESTAMP
+        - createIndex:
+            indexName: idx_username
+            tableName: users
+            columns:
+              - column:
+                  name: username
+        - createIndex:
+            indexName: idx_role
+            tableName: users
+            columns:
+              - column:
+                  name: role
+        - createIndex:
+            indexName: idx_patient_id
+            tableName: users
+            columns:
+              - column:
+                  name: patient_id
+        - createIndex:
+            indexName: idx_doctor_id
+            tableName: users
+            columns:
+              - column:
+                  name: doctor_id
